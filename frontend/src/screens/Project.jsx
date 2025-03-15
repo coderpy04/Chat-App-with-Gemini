@@ -18,7 +18,7 @@ const Project = () => {
     const [selectedUserId, setSelectedUserId] = useState(new Set()); // Initialized as Set
     const [project, setProject] = useState(location.state.project);
     //const [ message, setMessage ] = useState('')
-    c; //onst { user } = useContext(UserContext);
+    //const { user } = useContext(UserContext);
     //const messageBox = React.createRef()
     const [users, setUsers] = useState([]);
     //     const [ messages, setMessages ] = useState([]) // New state variable for messages
