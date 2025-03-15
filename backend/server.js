@@ -9,8 +9,6 @@ import projectModel from './models/project.model.js';
 
 const port = process.env.PORT || 3000;
 
-
-
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
@@ -30,9 +28,7 @@ io.use(async (socket, next) => {
             return next(new Error('Invalid projectId'));
         }
 
-
         socket.project = await projectModel.findById(projectId);
-
 
         if (!token) {
             return next(new Error('Authentication error'))
@@ -44,9 +40,7 @@ io.use(async (socket, next) => {
             return next(new Error('Authentication error'))
         }
 
-
         socket.user = decoded;
-
         next();
 
     } 
@@ -62,10 +56,7 @@ io.use(async (socket, next) => {
 io.on('connection', socket => {
     socket.roomId = socket.project._id.toString()
 
-
     console.log('a user connected');
-
-
 
     socket.join(socket.roomId);
 
@@ -78,11 +69,9 @@ io.on('connection', socket => {
 
         if (aiIsPresentInMessage) {
 
-
             const prompt = message.replace('@ai', '');
 
             const result = await generateResult(prompt);
-
 
             io.to(socket.roomId).emit('project-message', {
                 message: result,
@@ -95,8 +84,6 @@ io.on('connection', socket => {
 
             return
         }
-
-
     })
 
     socket.on('disconnect', () => {
