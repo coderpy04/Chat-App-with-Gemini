@@ -20,7 +20,6 @@ const Project = () => {
     //const [ message, setMessage ] = useState('')
     c; //onst { user } = useContext(UserContext);
     //const messageBox = React.createRef()
-
     const [users, setUsers] = useState([]);
     //     const [ messages, setMessages ] = useState([]) // New state variable for messages
     //     const [ fileTree, setFileTree ] = useState({})
