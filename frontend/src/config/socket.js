@@ -1,6 +1,6 @@
 import socket from 'socket.io-client';
 
-let socketInstance = null;
+let socketInstance = null; // represents connection btw server and client
 
 export const initializeSocket = (projectId) => {
 

@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-//import { UserContext } from '../context/user.context'
+import { UserContext } from "../context/user.context";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "../config/axios";
-// import { initializeSocket, receiveMessage, sendMessage } from '../config/socket'
+import {
+    initializeSocket,
+    receiveMessage,
+    sendMessage,
+} from "../config/socket";
 // import Markdown from 'markdown-to-jsx'
 // import hljs from 'highlight.js';
 // import { getWebContainer } from '../config/webcontainer'
@@ -18,7 +22,7 @@ const Project = () => {
     const [selectedUserId, setSelectedUserId] = useState(new Set()); // Initialized as Set
     const [project, setProject] = useState(location.state.project);
     //const [ message, setMessage ] = useState('')
-    //const { user } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     //const messageBox = React.createRef()
     const [users, setUsers] = useState([]);
     //     const [ messages, setMessages ] = useState([]) // New state variable for messages
@@ -60,17 +64,17 @@ const Project = () => {
             });
     }
 
-    //     const send = () => {
-    //         sendMessage("project-message", {
-    //             message,
-    //             sender: user,
-    //         });
-    //         setMessages((prevMessages) => [
-    //             ...prevMessages,
-    //             { sender: user, message },
-    //         ]); // Update messages state
-    //         setMessage("");
-    //     };
+    const send = () => {
+        sendMessage("project-message", {
+            message,
+            sender: user,
+        });
+        setMessages((prevMessages) => [
+            ...prevMessages,
+            { sender: user, message },
+        ]); // Update messages state
+        setMessage("");
+    };
 
     //     function WriteAiMessage(message) {
     //         const messageObject = JSON.parse(message);
@@ -89,53 +93,53 @@ const Project = () => {
     //         );
     //     }
 
-    //     useEffect(() => {
-    //         initializeSocket(project._id);
+    useEffect(() => {
+        initializeSocket(project._id);
 
-    //         if (!webContainer) {
-    //             getWebContainer().then((container) => {
-    //                 setWebContainer(container);
-    //                 console.log("container started");
-    //             });
-    //         }
+        // if (!webContainer) {
+        //     getWebContainer().then((container) => {
+        //         setWebContainer(container);
+        //         console.log("container started");
+        //     });
+        // }
 
-    //         receiveMessage("project-message", (data) => {
-    //             console.log(data);
+        receiveMessage("project-message", (data) => {
+            console.log(data);
 
-    //             if (data.sender._id == "ai") {
-    //                 const message = JSON.parse(data.message);
+            // if (data.sender._id == "ai") {
+            //     const message = JSON.parse(data.message);
 
-    //                 console.log(message);
+            //     console.log(message);
 
-    //                 webContainer?.mount(message.fileTree);
+            //     webContainer?.mount(message.fileTree);
 
-    //                 if (message.fileTree) {
-    //                     setFileTree(message.fileTree || {});
-    //                 }
-    //                 setMessages((prevMessages) => [...prevMessages, data]); // Update messages state
-    //             } else {
-    //                 setMessages((prevMessages) => [...prevMessages, data]); // Update messages state
-    //             }
-    //         });
+            //     if (message.fileTree) {
+            //         setFileTree(message.fileTree || {});
+            //     }
+            //     setMessages((prevMessages) => [...prevMessages, data]); // Update messages state
+            // } else {
+            //     setMessages((prevMessages) => [...prevMessages, data]); // Update messages state
+            // }
+        });
 
-    //         axios
-    //             .get(`/projects/get-project/${location.state.project._id}`)
-    //             .then((res) => {
-    //                 console.log(res.data.project);
+        axios
+            .get(`/projects/get-project/${location.state.project._id}`)
+            .then((res) => {
+                console.log(res.data.project);
 
-    //                 setProject(res.data.project);
-    //                 setFileTree(res.data.project.fileTree || {});
-    //             });
+                setProject(res.data.project);
+                //setFileTree(res.data.project.fileTree || {});
+            });
 
-    //         axios
-    //             .get("/users/all")
-    //             .then((res) => {
-    //                 setUsers(res.data.users);
-    //             })
-    //             .catch((err) => {
-    //                 console.log(err);
-    //             });
-    //     }, []);
+        axios
+            .get("/users/all")
+            .then((res) => {
+                setUsers(res.data.users);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
 
     //     function saveFileTree(ft) {
     //         axios
@@ -255,7 +259,7 @@ const Project = () => {
                 </div>
             </section>
 
-            <section className="right  bg-red-50 flex-grow h-full flex">
+            {/* <section className="right  bg-red-50 flex-grow h-full flex">
                 <div className="explorer h-full max-w-64 min-w-52 bg-slate-200">
                     <div className="file-tree w-full">
                         {Object.keys(fileTree).map((file, index) => (
@@ -404,7 +408,7 @@ const Project = () => {
                         ></iframe>
                     </div>
                 )}
-            </section>
+            </section> */}
 
             {isModalOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">

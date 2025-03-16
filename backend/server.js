@@ -16,7 +16,6 @@ const io = new Server(server, {
     }
 });
 
-
 io.use(async (socket, next) => {
 
     try {
@@ -41,49 +40,45 @@ io.use(async (socket, next) => {
         }
 
         socket.user = decoded;
+
         next();
 
     } 
-    catch (error) 
-    {
-        console.error('Socket auth error:', error);
+    catch (error) {
         next(error)
     }
-
 })
 
-
 io.on('connection', socket => {
+
     socket.roomId = socket.project._id.toString()
-
-    console.log('a user connected');
-
+    
     socket.join(socket.roomId);
 
     socket.on('project-message', async data => {
 
         const message = data.message;
-
-        const aiIsPresentInMessage = message.includes('@ai');
+        console.log(data);
+        //const aiIsPresentInMessage = message.includes('@ai');
         socket.broadcast.to(socket.roomId).emit('project-message', data)
 
-        if (aiIsPresentInMessage) {
+        // if (aiIsPresentInMessage) {
 
-            const prompt = message.replace('@ai', '');
+        //     const prompt = message.replace('@ai', '');
 
-            const result = await generateResult(prompt);
+        //     const result = await generateResult(prompt);
 
-            io.to(socket.roomId).emit('project-message', {
-                message: result,
-                sender: {
-                    _id: 'ai',
-                    email: 'AI'
-                }
-            })
+        //     io.to(socket.roomId).emit('project-message', {
+        //         message: result,
+        //         sender: {
+        //             _id: 'ai',
+        //             email: 'AI'
+        //         }
+        //     })
 
+        //     return
+        // }
 
-            return
-        }
     })
 
     socket.on('disconnect', () => {
@@ -94,4 +89,4 @@ io.on('connection', socket => {
 
 server.listen(port, () => {
     console.log(`Server is running on port ${port}`);
-})
+}) 
