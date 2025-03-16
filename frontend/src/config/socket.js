@@ -3,6 +3,7 @@ import socket from 'socket.io-client';
 let socketInstance = null; // represents connection btw server and client
 
 export const initializeSocket = (projectId) => {
+console.log("socket initialized")
 
     socketInstance = socket(import.meta.env.VITE_API_URL, {
         auth: {
@@ -12,7 +13,9 @@ export const initializeSocket = (projectId) => {
             projectId
         }
     });
+    console.log(socketInstance)
     return socketInstance;
+    
 }
 
 export const receiveMessage = (eventName, cb) => {

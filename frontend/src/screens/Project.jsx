@@ -21,11 +21,11 @@ const Project = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState(new Set()); // Initialized as Set
     const [project, setProject] = useState(location.state.project);
-    //const [ message, setMessage ] = useState('')
+    const [message, setMessage] = useState("");
     const { user } = useContext(UserContext);
     //const messageBox = React.createRef()
     const [users, setUsers] = useState([]);
-    //     const [ messages, setMessages ] = useState([]) // New state variable for messages
+    const [messages, setMessages] = useState([]); // New state variable for messages
     //     const [ fileTree, setFileTree ] = useState({})
 
     //     const [currentFile, setCurrentFile] = useState(null);
@@ -94,8 +94,6 @@ const Project = () => {
     //     }
 
     useEffect(() => {
-        initializeSocket(project._id);
-
         // if (!webContainer) {
         //     getWebContainer().then((container) => {
         //         setWebContainer(container);
@@ -103,8 +101,11 @@ const Project = () => {
         //     });
         // }
 
+        initializeSocket(project._id);
+
         receiveMessage("project-message", (data) => {
             console.log(data);
+            console.log("socket connected");
 
             // if (data.sender._id == "ai") {
             //     const message = JSON.parse(data.message);
@@ -158,11 +159,12 @@ const Project = () => {
     // Removed appendIncomingMessage and appendOutgoingMessage functions
 
     function scrollToBottom() {
-        messageBox.current.scrollTop = messageBox.current.scrollHeight;
+        // messageBox.current.scrollTop = messageBox.current.scrollHeight;
     }
 
     return (
         <main className="h-screen w-screen flex">
+            <button onClick={() => initializeSocket(project._id)}></button>
             <section className="left relative flex flex-col h-screen min-w-96 bg-slate-300">
                 <header className="flex justify-between items-center p-2 px-4 w-full bg-slate-100 absolute z-10 top-0">
                     <button
@@ -181,7 +183,7 @@ const Project = () => {
                 </header>
                 <div className="conversation-area pt-14 pb-10 flex-grow flex flex-col h-full relative">
                     <div
-                        ref={messageBox}
+                        // ref={messageBox}
                         className="message-box p-1 flex-grow flex flex-col gap-1 overflow-auto max-h-full scrollbar-hide"
                     >
                         {messages.map((msg, index) => (
