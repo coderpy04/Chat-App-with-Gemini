@@ -11,6 +11,17 @@ const Home = () => {
 
     const navigate = useNavigate();
 
+    const getProject = () => {
+        axios
+            .get("/projects/all")
+            .then((res) => {
+                setProject(res.data.projects);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
     function createProject(e) {
         e.preventDefault();
         console.log({ projectName });
@@ -22,22 +33,14 @@ const Home = () => {
             .then((res) => {
                 console.log(res);
                 setIsModalOpen(false);
+                getProject();
             })
             .catch((error) => {
                 console.log(error);
             });
     }
 
-    useEffect(() => {
-        axios
-            .get("/projects/all")
-            .then((res) => {
-                setProject(res.data.projects);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, []);
+    useEffect(getProject, []);
 
     return (
         <main className="p-4">

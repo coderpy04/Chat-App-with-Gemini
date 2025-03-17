@@ -23,7 +23,7 @@ const Project = () => {
     const [project, setProject] = useState(location.state.project);
     const [message, setMessage] = useState("");
     const { user } = useContext(UserContext);
-    //const messageBox = React.createRef()
+    const messageBox = React.createRef();
     const [users, setUsers] = useState([]);
     const [messages, setMessages] = useState([]); // New state variable for messages
     //     const [ fileTree, setFileTree ] = useState({})
@@ -110,7 +110,7 @@ const Project = () => {
             // if (data.sender._id == "ai") {
             //     const message = JSON.parse(data.message);
 
-            //     console.log(message);
+            console.log(message);
 
             //     webContainer?.mount(message.fileTree);
 
@@ -159,7 +159,7 @@ const Project = () => {
     // Removed appendIncomingMessage and appendOutgoingMessage functions
 
     function scrollToBottom() {
-        // messageBox.current.scrollTop = messageBox.current.scrollHeight;
+        messageBox.current.scrollTop = messageBox.current.scrollHeight;
     }
 
     return (
@@ -183,7 +183,7 @@ const Project = () => {
                 </header>
                 <div className="conversation-area pt-14 pb-10 flex-grow flex flex-col h-full relative">
                     <div
-                        // ref={messageBox}
+                        ref={messageBox}
                         className="message-box p-1 flex-grow flex flex-col gap-1 overflow-auto max-h-full scrollbar-hide"
                     >
                         {messages.map((msg, index) => (

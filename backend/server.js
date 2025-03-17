@@ -53,8 +53,6 @@ io.on('connection', socket => {
 
     socket.roomId = socket.project._id.toString()
 
-    
-
     socket.join(socket.roomId);
 
     socket.on('project-message', async data => {
